@@ -28,23 +28,23 @@ public enum ShareStoreOutput: String, RawRepresentable, Codable, CaseIterable {
     }
 }
 
-package struct ShareItems: Identifiable {
-    package let id = UUID()
-    package let items: [Any]
-    package let size: Int64?
-    package let cleanup: () -> Void
+public struct ShareItems: Identifiable {
+    public let id = UUID()
+    public let items: [Any]
+    public let size: Int64?
+    public let cleanup: () -> Void
 
-    package init(_ items: [Any], size: Int64? = nil, cleanup: @escaping () -> Void = { }) {
+    public init(_ items: [Any], size: Int64? = nil, cleanup: @escaping () -> Void = { }) {
         self.items = items
         self.size = size
         self.cleanup = cleanup
     }
 }
 
-package enum ShareService {
+public enum ShareService {
     private static var task: ShareStoreTask?
 
-    package static func share(_ entities: [NSManagedObject], store: LoggerStore, as output: ShareOutput) async throws -> ShareItems {
+    public static func share(_ entities: [NSManagedObject], store: LoggerStore, as output: ShareOutput) async throws -> ShareItems {
         try await withUnsafeThrowingContinuation { continuation in
             ShareStoreTask(entities: entities, store: store, output: output) {
                 if let value = $0 {
